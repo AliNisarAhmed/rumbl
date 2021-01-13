@@ -15,5 +15,9 @@
 		<%= text_input formData, :username, placeholder: "Username" %>
 		<%= error_tag formData, :username %>
 	</div>
+	<div>
+		<%= password_input formData, :password, placeholder: "Password" %>
+		<%= error_tag formData, :password %>
+	</div>
 	<%= submit "Create User" %>
 <% end %>
