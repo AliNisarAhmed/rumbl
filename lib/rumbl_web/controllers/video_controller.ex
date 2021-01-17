@@ -5,6 +5,8 @@ defmodule RumblWeb.VideoController do
   alias Rumbl.Multimedia.Video
   alias Rumbl.Accounts
 
+  plug :load_categories when action in [:new, :create, :edit, :update]
+
   def index(conn, _params, current_user) do
     videos = Multimedia.list_user_videos(current_user)
     render(conn, "index.html", videos: videos)
@@ -60,9 +62,14 @@ defmodule RumblWeb.VideoController do
     |> redirect(to: Routes.video_path(conn, :index))
   end
 
+  # this function is invoked by phoenix each time the controller is run
+  # This allows us to inject current_user as a param to out controller actions above
   def action(conn, _) do
     args = [conn, conn.params, conn.assigns.current_user]
     apply(__MODULE__, action_name(conn), args)
   end
 
+  defp load_categories(conn, _) do
+    assign(conn, :categories, Multimedia.list_alphabetical_categories())
+  end
 end
