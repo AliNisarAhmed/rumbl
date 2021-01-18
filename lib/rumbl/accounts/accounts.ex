@@ -15,7 +15,7 @@ defmodule Rumbl.Accounts do
   end
 
   def get_user_by(params) do
-    Repo.get_by!(User, params)
+    Repo.get_by(User, params)
   end
 
   def list_users do
