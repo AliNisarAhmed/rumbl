@@ -2,15 +2,18 @@ let Player = {
 	player: null,
 
 	init(domId, playerId, onReady) {
-		window.onYoutubeIframeAPIReady = () => {
+		window.onYouTubeIframeAPIReady = () => {
 			this.onIframeReady(domId, playerId, onReady);
 		};
-		let youtubeScriptTag = document.createElement('script');
-		youtubeScriptTag.src = '//www.youtube.com/iframe_api';
-		document.head.appendChild(youtubeScriptTag);
+
+		const tag = document.createElement('script');
+
+		tag.src = 'https://www.youtube.com/iframe_api';
+		const firstScriptTag = document.getElementsByTagName('script')[0];
+		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	},
 
-	onIframeReady(domId, playerId, onRead) {
+	onIframeReady(domId, playerId, onReady) {
 		this.player = new YT.Player(domId, {
 			height: '360',
 			width: '420',
@@ -23,9 +26,11 @@ let Player = {
 	},
 
 	onPlayerStateChange(event) {},
+
 	getCurrentTime() {
 		return Math.floor(this.player.getCurrentTime() * 1000);
 	},
+
 	seekTo(millsec) {
 		return this.player.seekTo(millsec / 1000);
 	},
